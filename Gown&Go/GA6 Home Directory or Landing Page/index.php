@@ -9,13 +9,10 @@ session_start();
     <title>Gown&Go</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link href="styles/index.css" rel="stylesheet">
-    <!-- ========================= styling ========================= -->
-    
-</head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
     <style>
-                html, body {
+        
+        html, body {
             margin: 0; padding: 0;
             box-sizing: border-box;
         }
@@ -121,7 +118,10 @@ session_start();
             h1 { font-size: 2.4em; }
             .subtitle { font-size: 1.1em; }
         }
+   
     </style>
+</head>
+
 <body>
 
 <!-- ========================= NAVBAR ========================= -->
