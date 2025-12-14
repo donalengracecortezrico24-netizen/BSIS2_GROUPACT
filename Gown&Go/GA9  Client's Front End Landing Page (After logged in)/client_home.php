@@ -11,7 +11,7 @@ $items_q = mysqli_query($conn, "
 
 // Handle Add to Cart
 $message = "";
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'], $_POST['item_id'], $_POST['quantity'])) {
 
     if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'customer') {
         header("Location: login.php");
@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     }
 
     $item_id = (int) $_POST['item_id'];
-    $order_type = $_POST['order_type'];
+    // ✅ FIXED LINE (prevents undefined order_type warning)
+    $order_type = isset($_POST['order_type']) ? $_POST['order_type'] : 'Purchase';
     $quantity = max(1, (int) $_POST['quantity']);
 
     if (!isset($_SESSION['cart'])) {
@@ -38,51 +39,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Client Home - Gown&Go</title>
+    <meta charset="UTF-8">
+    <title>Client Home - Gown&Go</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="inclusion/stylesheet.css">
 
 <style>
-    body {
-        margin: 0;
-        font-family: 'Segoe UI', sans-serif;
-        background: url('https://i.pinimg.com/1200x/63/01/8a/63018a11c5ad770ed2eec2d2587cea74.jpg') no-repeat center center fixed;
-        background-size: cover;
-        color: #6b2b4a;
-        position: relative;
-    }
-    body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background: rgba(245,230,240,0.35);
-        z-index: -1;
-    }
-
-    header {
-        background: rgba(255,255,255,0.9);
-        padding: 20px 40px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    }
-    header h1 {
-        font-family: 'Playfair Display', serif;
-        margin: 0;
-        color: #d86ca1;
-    }
-    nav a {
-        margin-left: 20px;
-        color: #6b2b4a;
-        font-weight: 600;
-        text-decoration: none;
-    }
-    nav a:hover {
-        color: #d86ca1;
-    }
-
     .message {
         background: #e6ffe6;
         color: #3c763d;
@@ -144,21 +108,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
     .add-btn:hover {
         background: #b3548a;
     }
+
+    .view-link {
+        display: inline-block;
+        margin-top: 4px;
+        font-size: 0.9rem;
+        text-decoration: none;
+        color: #d86ca1;
+        font-weight: 600;
+    }
 </style>
 </head>
 
 <body>
 
-<header>
-    <h1>GOWN&GO</h1>
-
-    <nav>
-        <a href="client_home.php">Shop</a>
-        <a href="cart.php">Cart</a>
-        <a href="orders.php">My Orders</a>
-        <a href="logout.php" style="color:#b3548a;">Logout</a>
-    </nav>
-</header>
+    <?php include 'inclusion/nav.php'; ?>
 
 <?php if (!empty($message)): ?>
     <div class="message"><?php echo $message; ?></div>
@@ -183,8 +147,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
             <strong>Purchase:</strong> ₱<?php echo number_format($item['purchase_price'], 2); ?>
         </p>
 
+        <!-- ✅ FIXED VIEW LINK -->
+        <a class="view-link" href="view_item.php?id=<?php echo $item['item_id']; ?>">View details →</a>
+
         <?php if (!isset($_SESSION['user_id'])): ?>
-            <a href="login.php" style="color:#d86ca1;">Login to order</a>
+            <br><a href="login.php" style="color:#d86ca1;">Login to order</a>
         <?php else: ?>
 
         <form method="POST">
@@ -207,5 +174,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
